@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+table {
+    table-layout: fixed;
+    width:100%
+}
+td {
+    word-wrap:break-word;
+}
+.scrollable {
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+}
+</style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <span class="brand-logo">Proxy server</span>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/logs">Logs</a></li>
+                <li><a href="/users">Users</a></li>
+                <li><a href="/settings_1c">1c settings</a></li>
+                <li><a href="/exit">Exit</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>ip-адрес</th>
+                    <th>Браузер</th>
+                    <th>Пусть к api</th>
+		    <th>Успешно</th>
+		    <th>Даные запроса</th>
+                    <th>Дата запроса</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in rowRequest %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.ip }}</td>
+                    <td>{{ row.agent }}</td>
+                    <td>{{ row.path }}</td>
+                    <td>{{ row.err }}</td>
+                    <td>
+			<div class=scrollable>
+			{{ row.json }}
+			</div>
+		    </td>
+                    <td>{{ row.created_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+
+      <ul class="pagination">
+        {% for page in listpage %}
+            {% if curent_page == page %}
+                <li class="waves-effect"><a href="/logs/{{ page }}"> <i class="material-icons">{{ page }}</i></a></li>
+            {% else %}
+            <li class="waves-effect"><a href="/logs/{{ page }}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</html>

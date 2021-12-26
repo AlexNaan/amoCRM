@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings 1C</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    select{
+      display: block;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-wrapper">
+      <span class="brand-logo">Proxy server</span>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/logs">Logs</a></li>
+        <li><a href="/users">Users</a></li>
+        <li><a href="/settings_1c">1c settings</a></li>
+        <li><a href="/exit">Exit</a></li>
+      </ul>
+    </div>
+  </nav>
+     <div class="container">
+      <div style="margin:0 auto; width:60%;">
+        <div class="row">
+          <form class="col s12" method="POST" action="">
+            <div class="row">
+
+              <label for="PROTO">Протокол</label>
+                <select id="PROTO" name="PROTO">
+                  
+                  {% if data_settings.PROTO == 'http' %}
+                    <option selected="selected" value="http">HTTP</option>
+                    <option value="https">HTTPS</option>
+                  {% else %}
+                    <option value="http">HTTP</option>
+                    <option selected="selected" value="https">HTTPS</option>
+                  {% endif %}
+                  
+                </select>
+              <div class="input-field col s12">
+                <input value="{{ data_settings.IP }}" id="IP" name="IP" type="text">
+                <label for="IP">IP-адрес</label>
+              </div>
+              <div class="input-field col s12">
+                <input value="{{ data_settings.PORT }}" id="PORT" name="PORT" type="text">
+                <label for="PORT">Порт</label>
+              </div>
+              <div class="input-field col s12">
+                <input value="{{ data_settings.URL }}" id="URL" name="URL" type="text">
+                <label for="URL">/имя_базы/hs/имя_сервиса/</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="USER_1C" name="USER_1C" type="text" value="{{ data_settings.USER_1C }}">
+                <label for="USER_1C">Имя пользователя</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="PASSWORD" name="PASSWORD" type="text" value="{{ data_settings.PASSWORD_1C }}"
+                  class="validate">
+                <label for="PASSWORD">Пароль</label>
+              </div>
+            </div>
+            <input class="btn" type="submit" value="Записать">
+          </form>
+        </div>
+        {% if info %}
+          <i class="large material-icons">create</i> <span> {{ info }} </span>
+        {% endif %}
+      </div>
+      
+    </div>
+    
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+</html>

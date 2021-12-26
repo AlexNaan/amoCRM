@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        .mainFlex {
+            display: flex;
+            align-items: stretch;
+            border-left: 1px solid black;
+            margin-top: 15px;
+        }
+
+        .flexItem {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <span class="brand-logo">Proxy server</span>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/logs">Logs</a></li>
+                <li><a href="/users">Users</a></li>
+                <li><a href="/settings_1c">1c settings</a></li>
+                <li><a href="/exit">Exit</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <p >Создать пользователя</p>
+        <form method="POST" action="" class="mainFlex">
+                
+
+                <div class="flexItem">
+                    <input value="" id="username" name="username" type="text" class="validate">
+                    <label for="username">Логин</label>
+                </div>
+                <div class="flexItem">
+                    <input id="password" name="password" type="password" class="validate">
+                    <label for="password">Пароль</label>
+                </div>
+                <div class="flexItem">
+                    <input id="passwordConfirm" name="passwordConfirm" type="password" class="validate">
+                    <label for="username">Подтверждение пароля</label>
+                </div>
+ 
+            <input id="createUser" class=" btn" type="submit"value="Создать">
+
+        </form>
+        <p> Список пользователей</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Имя</th>
+                    <th>Дата создания</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in rowRequest %}
+                <tr>
+                    <td>{{ row.id }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.created_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+
+        <ul class="pagination">
+            {% for page in listpage %}
+            {% if curent_page == page %}
+            <li class="waves-effect"><a href="/logs/{{ page }}"> <i class="material-icons">{{ page }}</i></a></li>
+            {% else %}
+            <li class="waves-effect"><a href="/logs/{{ page }}">{{ page }}</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+
+
+    </div>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+
+    let btCreateUser = document.querySelector('#createUser')
+    btCreateUser.addEventListener('click', e => {
+
+        let inUsername = document.querySelector('#username')
+        let inPassword = document.querySelector('#password')
+        let inPasswordConfirm = document.querySelector('#passwordConfirm')
+
+        let er = false
+        if (inUsername.value.length < 1) {
+            er = true;
+            alert('Логин слишком короткий')
+        }
+
+        if (!er & inPassword.value.length < 1) {
+            er = true;
+            alert('Пароли слишком короткий')
+        }
+        if (!er & inPasswordConfirm.value.length < 1) {
+            er = true;
+            alert('Подтверждаемый пароль слишком короткий')
+
+        }
+
+
+        if (!er & inPassword.value != inPasswordConfirm.value) {
+            er = true;
+            alert('Пароли не совпадают')
+        }
+
+        if (er) {
+            e.preventDefault();
+        }
+    })
+
+</script>
+
+</html>
